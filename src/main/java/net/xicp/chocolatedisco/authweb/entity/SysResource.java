@@ -30,10 +30,10 @@ public class SysResource {
     @NotBlank(message = "资源码不能为空", groups = {AddValidationGroup.class})
     @Pattern(regexp = "[^#%<>]{1,64}", message = "资源码不能包含非法字符", groups = {AddValidationGroup.class, EditValidationGroup.class, QueryValidationGroup.class})
     @Length(message = "资源码长度不得超过64个字符", min = 1, max = 64, groups = {AddValidationGroup.class, EditValidationGroup.class, QueryValidationGroup.class})
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String code;
     @NotBlank(message = "分类不能为空", groups = {AddValidationGroup.class})
-    @Pattern(regexp = "[GET|POST|PUT|DELETE]", message = "分类为[GET|POST|PUT|DELETE]", groups = {AddValidationGroup.class, EditValidationGroup.class, QueryValidationGroup.class})
+    @Pattern(regexp = "[GET|POST|PUT|DELETE|OPTION]", message = "分类为[GET|POST|PUT|DELETE]", groups = {AddValidationGroup.class, EditValidationGroup.class, QueryValidationGroup.class})
     @Length(message = "分类长度不得超过32个字符", min = 1, max = 32, groups = {AddValidationGroup.class, EditValidationGroup.class, QueryValidationGroup.class})
     @Column(nullable = false)
     private String classification;

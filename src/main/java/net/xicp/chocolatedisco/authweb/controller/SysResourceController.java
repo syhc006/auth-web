@@ -55,10 +55,11 @@ public class SysResourceController extends BaseController {
     @Transactional
     public SysResource addSysResource(@RequestBody @Validated(value = {AddValidationGroup.class}) SysResource sysResource, BindingResult result) throws Exception {
         boolean isDuplication = sysResourceRepository.findAll().stream().anyMatch(
-                sysResource1 -> sysResource1.getDisplayName().equals(sysResource.getDisplayName()) || sysResource1.getCode().equals(sysResource.getCode())
+                sysResource1 -> sysResource1.getDisplayName().equals(sysResource.getDisplayName()) ||
+                        (sysResource1.getCode().equals(sysResource.getCode()) && sysResource1.getClassification().equals(sysResource.getClassification()))
         );
         if (isDuplication) {
-            throw new DuplicateInformationException("系统资源\"" + sysResource.getDisplayName() + "\"已存在或资源标识\"" + sysResource.getCode() + "\"已存在");
+            throw new DuplicateInformationException("系统资源\"" + sysResource.getDisplayName() + "\"已存在或资源标识\"" + sysResource.getClassification() + "|" + sysResource.getCode() + "\"已存在");
         }
         SysResource sysResourceInDb = sysResourceRepository.saveAndFlush(sysResource);
         return sysResourceInDb;
@@ -70,10 +71,11 @@ public class SysResourceController extends BaseController {
     public SysResource editSysResourceById(@PathVariable Long id, @RequestBody @Validated(value = {EditValidationGroup.class}) SysResource sysResource, BindingResult result) throws Exception {
         boolean isDuplication = sysResourceRepository.findAll().stream().anyMatch(
                 sysResource1 -> sysResource1.getId() == id ? false :
-                        sysResource1.getDisplayName().equals(sysResource.getDisplayName()) || sysResource1.getCode().equals(sysResource.getCode())
+                        sysResource1.getDisplayName().equals(sysResource.getDisplayName()) ||
+                                (sysResource1.getCode().equals(sysResource.getCode()) && sysResource1.getClassification().equals(sysResource.getClassification()))
         );
         if (isDuplication) {
-            throw new DuplicateInformationException("系统资源\"" + sysResource.getDisplayName() + "\"已存在或资源标识\"" + sysResource.getCode() + "\"已存在");
+            throw new DuplicateInformationException("系统资源\"" + sysResource.getDisplayName() + "\"已存在或资源标识\"" + sysResource.getClassification() + "|" + sysResource.getCode() + "\"已存在");
         }
         SysResource sysResourceInDb = sysResourceRepository.findById(id).orElseThrow(() -> new MissingInformationException("无此资源"));
         copyNonNullProperties(sysResource, sysResourceInDb, "id");
