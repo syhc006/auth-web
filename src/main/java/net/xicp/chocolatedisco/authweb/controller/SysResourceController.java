@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/auth")
 public class SysResourceController extends BaseController {
     @Autowired
     private SysResourceRepository sysResourceRepository;

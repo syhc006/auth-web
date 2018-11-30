@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/auth")
 public class SysRoleController extends BaseController {
     @Autowired
     private SysRoleRepository sysRoleRepository;
